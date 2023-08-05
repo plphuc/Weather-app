@@ -8,7 +8,7 @@ export default function App() {
       <div className=""></div>
       <button className="nav-location-btn">
         <span className="nav-location-icon">
-          <BiCurrentLocation size={27}/>
+          <BiCurrentLocation size={27} />
         </span>
       </button>
     </div>
