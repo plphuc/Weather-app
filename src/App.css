@@ -3,14 +3,14 @@
   position: relative;
 
   &::before {
-    content: "";
+    content: '';
 
     height: 100%;
     width: 100%;
     opacity: 0.3;
     display: block;
 
-    background: url("./assets/images/Cloud-background.png") center 40px;
+    background: url('./assets/images/Cloud-background.png') center 40px;
     background-repeat: no-repeat;
   }
 }

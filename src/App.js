@@ -1,6 +1,6 @@
-import { BiCurrentLocation } from "react-icons/bi";
+import { BiCurrentLocation } from 'react-icons/bi';
 
-import "./App.css";
+import './App.css';
 
 export default function App() {
   return (
