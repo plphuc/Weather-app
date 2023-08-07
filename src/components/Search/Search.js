@@ -2,7 +2,7 @@ import CurrentLocation from 'components/CurrentLocation/CurrentLocation';
 import styles from './Search.module.css';
 import locationStyles from '../ModalSearchplace/ModalSearchPlace.module.css';
 import { useState } from 'react';
-import ModalSearchPlace from 'components/ModalSearchplace/ModalSearchPlace';
+import ModalSearchPlace from 'components/ModalSearchPlace/ModalSearchPlace';
 
 function Search() {
   const [currentLocation, setCurrentLocation] = useState('undefined');
