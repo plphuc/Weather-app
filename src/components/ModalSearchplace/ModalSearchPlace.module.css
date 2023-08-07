@@ -11,6 +11,10 @@
   justify-content: flex-end;
 }
 
+.closeIcon {
+  display: flex;
+}
+
 .searchBarWrapper {
   margin: 12px;
 
@@ -47,10 +51,11 @@
   height: 100%;
   border: 1px solid #616475;
   padding-inline-start: 48px;
-
-
+  
+  
   color: #616475;
   background: transparent;
+  font-size: 2rem;
   font-family: var(--general-font);
 
   &:focus {
@@ -74,6 +79,7 @@
 }
 
 .locationWrapper {
+  height: inherit;
   padding: 12px;
 
   display: flex;
@@ -88,6 +94,7 @@
 }
 
 .locationList {
+  overflow: scroll;
 }
 
 .locationItem {
