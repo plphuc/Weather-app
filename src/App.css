@@ -10,27 +10,11 @@
     opacity: 0.3;
     display: block;
 
+    position: absolute;
+    z-index: -1;
+
     background: url('./assets/images/Cloud-background.png') center 40px;
     background-repeat: no-repeat;
   }
 }
 
-.nav-location-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #6e707a4d;
-
-  position: absolute;
-  right: 12px;
-  top: 18px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.nav-location-icon {
-  display: flex;
-  color: var(--main-text-color);
-}

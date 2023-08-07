@@ -6,7 +6,7 @@
 
   --background-color: #1e213a;
   --main-text-color: #e7e7eb;
-  --text-des-color: #88869d;
+  --des-text-color: #88869d;
 }
 
 * {
@@ -20,11 +20,11 @@ html {
   height: 100%;
   font-size: 62.5%;
   background-color: var(--background-color);
+  font-family: var(--general-font);
 }
 
 body {
   height: 100%;
-  font-family: var(--general-font);
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizespeed;
