@@ -1,0 +1,9 @@
+.searchPlaceBtn {
+  width: 161px;
+  height: 40px;
+  flex-shrink: 0;
+
+  color: var(--main-text-color);
+  background-color: #6E707A;
+  font-family: var(--general-font);
+}
