@@ -4,7 +4,7 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import { keyAPI } from 'components/config';
 
-import styles from './Search.module.css';
+import styles from './SearchSection.module.css';
 import 'index.css';
 
 function Search() {
@@ -76,8 +76,8 @@ function Search() {
 
       <div className={searchPlaceModalElement}>
         <SearchPlaceModal
-          handleChooseLocation={setLocationInfo}
-          handleCloseModal={() => {
+          onChooseLocation={setLocationInfo}
+          onCloseModal={() => {
             setIsSearchPlaceModalActive(false);
           }}
         />

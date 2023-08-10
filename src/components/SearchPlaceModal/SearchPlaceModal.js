@@ -7,7 +7,7 @@ import useDebounce from 'hooks/useDebounce';
 import styles from './SearchPlaceModal.module.css';
 
 function SearchPlaceModal(props) {
-  const { handleCloseModal, handleChooseLocation } = props;
+  const { onCloseModal, onChooseLocation } = props;
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const debounced = useDebounce(searchValue, 500);
@@ -15,8 +15,8 @@ function SearchPlaceModal(props) {
   function handleChooseItem(data) {
     setSearchResult([]);
     setSearchValue('');
-    handleChooseLocation(data);
-    handleCloseModal();
+    onChooseLocation(data);
+    onCloseModal();
   }
 
   function handleSearchInput(e) {
@@ -52,7 +52,7 @@ function SearchPlaceModal(props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.closeModal}>
-        <span className={styles.closeIcon} onClick={handleCloseModal}>
+        <span className={styles.closeIcon} onClick={onCloseModal}>
           <IoClose size={24} />
         </span>
       </div>
