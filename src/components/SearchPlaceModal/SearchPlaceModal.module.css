@@ -46,6 +46,24 @@
   left: 0;
 }
 
+.loadingIcon {
+  height: 20px;
+  width: 20px;
+
+  border: 2px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2px solid #55585a;
+
+  animation: spin 1s linear infinite;
+
+  position: absolute;
+  left: 12px;
+}
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 .inputSearch {
   width: 100%;
   height: 100%;
@@ -107,4 +125,10 @@
 .locationName {
   padding-inline-start: 40px;
   overflow-x: hidden;
+}
+
+.notFoundNoti {
+  display: flex;
+  justify-content: center;
+  color: var(--des-text-color);
 }

@@ -1,54 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
-import { keyAPI } from 'components/config';
-import useDebounce from 'hooks/useDebounce';
-
 import styles from './SearchPlaceModal.module.css';
+import * as fetchApi from 'utils/getRequests';
+import debouncedFunc from 'hooks/debouncedFunc';
 
 function SearchPlaceModal(props) {
   const { onCloseModal, onChooseLocation } = props;
   const [searchValue, setSearchValue] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
-  const debounced = useDebounce(searchValue, 500);
+  const [searchResult, setSearchResult] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleChooseItem(data) {
+  function handleChooseItem(location) {
     setSearchResult([]);
     setSearchValue('');
-    onChooseLocation(data);
+    onChooseLocation(location);
     onCloseModal();
   }
 
   function handleSearchInput(e) {
-    const searchWords = e.target.value;
+    setIsLoading(true);
+    const searchText = e.target.value;
+    const trimmedSearchText = searchText?.trim() ?? '';
 
-    if (!searchWords.startsWith(' ')) {
-      setSearchValue(searchWords);
-    }
-  }
-
-  useEffect(() => {
-    if (!debounced.trim()) {
-      setSearchResult([]);
-      return;
-    }
-
-    const response = async () => {
-      const result = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=5&appid=${keyAPI}`
-      );
-      return result.json();
+    const getLocationCoordinates = async () => {
+      const results = await fetchApi.getLocationCoordinates(trimmedSearchText);
+      setSearchResult(results);
+      setIsLoading(false);
     };
 
-    try {
-      response().then((data) => {
-        setSearchResult(data);
-      });
-    } catch {
-      alert("Can't find location");
+    if (trimmedSearchText.length === 0) {
+      return;
     }
-    // eslint-disable-next-line
-  }, [debounced]);
+    setSearchValue(trimmedSearchText);
+    const debouncedGetLocationCoordinates = debouncedFunc(
+      getLocationCoordinates,
+      500
+    );
+    debouncedGetLocationCoordinates();
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.closeModal}>
@@ -59,9 +50,13 @@ function SearchPlaceModal(props) {
 
       <div className={styles.searchBarWrapper}>
         <div className={styles.searchBar}>
-          <span className={styles.searchIcon}>
-            <IoSearch size={24} />
-          </span>
+          {!isLoading ? (
+            <span className={styles.searchIcon}>
+              <IoSearch size={24} />
+            </span>
+          ) : (
+            <span className={styles.loadingIcon}></span>
+          )}
 
           <input
             id="searchInput"
@@ -76,25 +71,32 @@ function SearchPlaceModal(props) {
       <div className={styles.locationWrapper}>
         <div className={styles.locationHeader}>Location</div>
 
-        <div id="locationList" className={styles.locationList}>
-          {searchResult.map((location, idx) => {
-            return (
-              <div
-                className={styles.locationItem}
-                key={idx}
-                onClick={() => handleChooseItem(location)}
-              >
-                <span className={styles.searchIcon}>
-                  <IoSearch size={24} />
-                </span>
-                <span className={styles.locationName}>
-                  {location.name} {location.state && `- ${location.state}`}{' '}
-                  {location.country && `- ${location.country}`}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+        {Array.isArray(searchResult) && (
+          <div id="locationList" className={styles.locationList}>
+            {searchResult.length > 0 ? (
+              searchResult.map((location, idx) => {
+                return (
+                  <div
+                    className={styles.locationItem}
+                    key={idx}
+                    onClick={() => handleChooseItem(location)}
+                  >
+                    <span className={styles.searchIcon}>
+                      <IoSearch size={24} />
+                    </span>
+                    <span className={styles.locationName}>
+                      <span>{location.name}</span>
+                      <span>{location.state && ` - ${location.state}`} </span>
+                      <span>{location.country && ` - ${location.country}`}</span>
+                    </span>
+                  </div>
+                );
+              })
+            ) : (
+              <div className={styles.notFoundNoti}>No Results Found</div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
