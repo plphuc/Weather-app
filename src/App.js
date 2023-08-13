@@ -1,11 +1,11 @@
-import Search from 'components/SearchSection/SearchSection';
+import SearchSection from 'components/SearchSection/SearchSection';
 
 import styles from './App.module.css';
 
 function App() {
   return (
     <div className={styles.wrapper}>
-      <Search/>
+      <SearchSection/>
     </div>
   );
 }
