@@ -2,55 +2,46 @@ import { useEffect, useState } from 'react';
 import { BiCurrentLocation } from 'react-icons/bi';
 
 import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
-import { keyAPI } from 'components/config';
-
+import * as fetchApi from 'utils/getRequests';
 import styles from './SearchSection.module.css';
-import 'index.css';
 
 function Search() {
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
     useState(false);
-  const [isFindCurrentLocation, setIsFindCurrentLocation] = useState(true);
   const [locationInfo, setLocationInfo] = useState();
+  const [isLocateAvailable, setIsLocateAvailable] = useState(true);
 
-  // Show/Hide Search Modal
-  let searchPlaceModalElement = styles.searchModalContainer;
-  if (isSearchPlaceModalActive) {
-    searchPlaceModalElement += ' displayItem';
-  } else {
-    searchPlaceModalElement += ' hideItem';
-  }
+  const getCurrentLocation = function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      setIsLocateAvailable(false);
+    }
 
-  function showCurrentLocation() {
-    setIsFindCurrentLocation(true);
-  }
-
-  // Get current location information
-  useEffect(() => {
     function showPosition(position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      response(latitude, longitude).then((data) => {
-        setLocationInfo(data);
-        setIsFindCurrentLocation(false);
-        localStorage.setItem('currentLocationInfo', JSON.stringify(data));
-      });
+      const getLocationInfo = async (longitude, latitude) => {
+        const result = await fetchApi.getLocationInfo(longitude, latitude);
+        setLocationInfo(result);
+        localStorage.setItem('currentLocationInfo', JSON.stringify(result));
+      };
+      getLocationInfo(longitude, latitude);
     }
 
-    const response = async (latitude, longitude) => {
-      const result = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${keyAPI}`
-      );
-      return result.json();
-    };
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      alert('Geolocation is not supported by this browser.');
+    function showError() {
+      setIsLocateAvailable(false)
     }
-  }, [isFindCurrentLocation]);
+  };
+
+  function handleGetCurrentLocation() {
+    getCurrentLocation();
+  }
+  // Get default location information
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -66,22 +57,30 @@ function Search() {
 
         <button
           className={styles.currentLocationBtn}
-          onClick={showCurrentLocation}
+          onClick={handleGetCurrentLocation}
         >
-          <span className={styles.currentLocationIcon}>
+          <span
+            className={
+              isLocateAvailable
+                ? styles.currentLocationIcon
+                : styles.disabledLocation
+            }
+          >
             <BiCurrentLocation size={27} />
           </span>
         </button>
       </div>
 
-      <div className={searchPlaceModalElement}>
-        <SearchPlaceModal
-          onChooseLocation={setLocationInfo}
-          onCloseModal={() => {
-            setIsSearchPlaceModalActive(false);
-          }}
-        />
-      </div>
+      {isSearchPlaceModalActive && (
+        <div className={styles.searchModalContainer}>
+          <SearchPlaceModal
+            onChooseLocation={setLocationInfo}
+            onCloseModal={() => {
+              setIsSearchPlaceModalActive(false);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

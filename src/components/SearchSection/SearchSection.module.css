@@ -36,6 +36,9 @@
   color: var(--main-text-color);
 }
 
+.disabledLocation {
+  color: #6e707a4d;
+}
 
 .searchModalContainer {
   width: 100%;
