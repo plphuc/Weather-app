@@ -24,9 +24,9 @@
 }
 
 .searchBar {
-  width: 252px;
   height: 48px;
-
+  flex: 1;
+  
   justify-content: center;
   display: flex;
   align-items: center;
@@ -65,17 +65,6 @@
 
 .searchBtnWrapper {
 
-}
-
-.searchBtn {
-  width: 86px;
-  height: 48px;
-
-  background: #3C47E9;
-
-  font-size: 1.6rem;
-  font-family: var(--general-font);
-  color: var(--main-text-color);
 }
 
 .locationWrapper {
@@ -117,4 +106,5 @@
 
 .locationName {
   padding-inline-start: 40px;
+  overflow-x: hidden;
 }

@@ -1,66 +1,88 @@
-import CurrentLocation from 'components/CurrentLocation/CurrentLocation';
+import { useEffect, useState } from 'react';
+import { BiCurrentLocation } from 'react-icons/bi';
+
+import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
+import { keyAPI } from 'components/config';
+
 import styles from './Search.module.css';
-import locationStyles from '../ModalSearchplace/ModalSearchPlace.module.css';
-import { useState } from 'react';
-import ModalSearchPlace from 'components/ModalSearchPlace/ModalSearchPlace';
+import 'index.css';
 
 function Search() {
-  const [currentLocation, setCurrentLocation] = useState('undefined');
-  const [findLocationName, setFindLocationName] = useState('');
-  // const [isSearchPlaceActive, setIsSearchPlaceActive] = useState(true)
+  const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
+    useState(false);
+  const [isFindCurrentLocation, setIsFindCurrentLocation] = useState(true);
+  const [locationInfo, setLocationInfo] = useState();
 
-  function activeFindLocationModal() {
-    const modalSearchElement = document.querySelector(`.${styles.searchModalContainer}`);
-    const inputSearchElement = document.querySelector('#searchInput');
-    const locationElements = document.querySelector('#locationList').querySelectorAll(`div[class='${locationStyles.locationItem}']`);
+  // Show/Hide Search Modal
+  let searchPlaceModalElement = styles.searchModalContainer;
+  if (isSearchPlaceModalActive) {
+    searchPlaceModalElement += ' displayItem';
+  } else {
+    searchPlaceModalElement += ' hideItem';
+  }
 
-    modalSearchElement.style.display = 'block';
-    inputSearchElement.value = '';
-    for (let i = 0; i < locationElements.length; i++) {
-      locationElements[i].style.display = '';
+  function showCurrentLocation() {
+    setIsFindCurrentLocation(true);
+  }
+
+  // Get current location information
+  useEffect(() => {
+    function showPosition(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      response(latitude, longitude).then((data) => {
+        setLocationInfo(data);
+        setIsFindCurrentLocation(false);
+        localStorage.setItem('currentLocationInfo', JSON.stringify(data));
+      });
     }
-  }
 
-  function deactiveFindLocationModal() {
-    const modalSearchElement = document.querySelector(`.${styles.searchModalContainer}`);
+    const response = async (latitude, longitude) => {
+      const result = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${keyAPI}`
+      );
+      return result.json();
+    };
 
-    modalSearchElement.style.display = 'none';
-  }
-
-  function handleFindCurrentLocation() {
-    // Do something to find location
-    setCurrentLocation('vietnam');
-  }
-
-  function handleFindLocation(e) {
-    setFindLocationName(e.target.innerText);
-
-    const modalSearchElement = document.querySelector(`.${styles.searchModalContainer}`);
-    modalSearchElement.style.display = 'none';
-  }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }, [isFindCurrentLocation]);
 
   return (
-    <>
-      <div className={styles.wrapper}>
-        <div className={styles.searchContainer}>
-          <button
-            className={styles.searchPlaceBtn}
-            onClick={activeFindLocationModal}
-          >
-            <span>Search For Places</span>
-          </button>
+    <div className={styles.wrapper}>
+      <div className={styles.searchContainer}>
+        <button
+          className={styles.searchPlaceBtn}
+          onClick={() => {
+            setIsSearchPlaceModalActive(true);
+          }}
+        >
+          <span>Search For Places</span>
+        </button>
 
-          <CurrentLocation handleClicked={handleFindCurrentLocation} />
-        </div>
-
-        <div className={styles.searchModalContainer}>
-          <ModalSearchPlace
-            handleFindLocation={handleFindLocation}
-            handleClose={deactiveFindLocationModal}
-          />
-        </div>
+        <button
+          className={styles.currentLocationBtn}
+          onClick={showCurrentLocation}
+        >
+          <span className={styles.currentLocationIcon}>
+            <BiCurrentLocation size={27} />
+          </span>
+        </button>
       </div>
-    </>
+
+      <div className={searchPlaceModalElement}>
+        <SearchPlaceModal
+          handleChooseLocation={setLocationInfo}
+          handleCloseModal={() => {
+            setIsSearchPlaceModalActive(false);
+          }}
+        />
+      </div>
+    </div>
   );
 }
 

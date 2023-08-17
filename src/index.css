@@ -44,3 +44,11 @@ a {
 #root {
   height: 100%;
 }
+
+.hideItem {
+  display: none;
+}
+
+.displayItem {
+display: '';
+}

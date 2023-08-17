@@ -1,9 +1,10 @@
-import './App.css';
 import Search from 'components/Search/Search';
+
+import styles from './App.module.css';
 
 function App() {
   return (
-    <div className='wrapper'>
+    <div className={styles.wrapper}>
       <Search/>
     </div>
   );
