@@ -5,42 +5,51 @@ import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import * as fetchApi from 'utils/getRequests';
 import styles from './SearchSection.module.css';
 
+const fetchLocationInfo = async (longitude, latitude) => {
+  const result = await fetchApi.getLocationInfo(longitude, latitude);
+  localStorage.setItem('currentLocationInfo', JSON.stringify(result));
+  return result;
+};
+
 function Search() {
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
     useState(false);
   const [locationInfo, setLocationInfo] = useState();
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
 
-  const getCurrentLocation = function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      setIsLocateAvailable(false);
-    }
+  function onChooseLocation(location) {
+    setLocationInfo(location);
+    setIsSearchPlaceModalActive(false);
+  }
 
-    function showPosition(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+  function showPosition(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    const result = fetchLocationInfo(longitude, latitude);
 
-      const getLocationInfo = async (longitude, latitude) => {
-        const result = await fetchApi.getLocationInfo(longitude, latitude);
-        setLocationInfo(result);
-        localStorage.setItem('currentLocationInfo', JSON.stringify(result));
-      };
-      getLocationInfo(longitude, latitude);
-    }
+    result.then((data) => {
+      setLocationInfo(data);
+    });
+  }
 
-    function showError() {
-      setIsLocateAvailable(false)
-    }
+  function showError() {
+    setIsLocateAvailable(false);
+  }
+
+  const loadCurrentLocation = function () {
+    navigator.geolocation
+      ? navigator.geolocation.getCurrentPosition(showPosition, showError)
+      : setIsLocateAvailable(false);
   };
 
-  function handleGetCurrentLocation() {
-    getCurrentLocation();
+  // handle when click on currentLocationBtn
+  function handleLoadCurrentLocation() {
+    loadCurrentLocation();
   }
+
   // Get default location information
   useEffect(() => {
-    getCurrentLocation();
+    loadCurrentLocation();
   }, []);
 
   return (
@@ -57,7 +66,7 @@ function Search() {
 
         <button
           className={styles.currentLocationBtn}
-          onClick={handleGetCurrentLocation}
+          onClick={handleLoadCurrentLocation}
         >
           <span
             className={
@@ -74,7 +83,7 @@ function Search() {
       {isSearchPlaceModalActive && (
         <div className={styles.searchModalContainer}>
           <SearchPlaceModal
-            onChooseLocation={setLocationInfo}
+            onChooseLocation={onChooseLocation}
             onCloseModal={() => {
               setIsSearchPlaceModalActive(false);
             }}

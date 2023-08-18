@@ -3,7 +3,7 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 
 import styles from './SearchPlaceModal.module.css';
 import * as fetchApi from 'utils/getRequests';
-import debouncedFunc from 'hooks/debouncedFunc';
+import debouncedFunc from 'utils/debouncedFunc';
 
 function SearchPlaceModal(props) {
   const { onCloseModal, onChooseLocation } = props;
@@ -11,33 +11,34 @@ function SearchPlaceModal(props) {
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Choose item from list
   function handleChooseItem(location) {
     setSearchResult([]);
     setSearchValue('');
     onChooseLocation(location);
-    onCloseModal();
   }
 
-  function handleSearchInput(e) {
+  // Query locations from trimmed search input
+  const queryLocations = async(trimmedSearchText) => {
     setIsLoading(true);
+    const results = await fetchApi.getLocationCoordinates(
+      trimmedSearchText
+    );
+    setSearchResult(results);
+    setIsLoading(false);
+  }
+
+  // handle when input search location
+  function handleSearchInput(e) {
     const searchText = e.target.value;
     const trimmedSearchText = searchText?.trim() ?? '';
-
-    const getLocationCoordinates = async () => {
-      const results = await fetchApi.getLocationCoordinates(trimmedSearchText);
-      setSearchResult(results);
-      setIsLoading(false);
-    };
-
+    setSearchValue(searchText);
+    
     if (trimmedSearchText.length === 0) {
       return;
     }
-    setSearchValue(trimmedSearchText);
-    const debouncedGetLocationCoordinates = debouncedFunc(
-      getLocationCoordinates,
-      500
-    );
-    debouncedGetLocationCoordinates();
+    const debouncedQueryLocations = debouncedFunc(() => queryLocations(trimmedSearchText), 500);
+    debouncedQueryLocations();
   }
 
   return (
@@ -87,7 +88,9 @@ function SearchPlaceModal(props) {
                     <span className={styles.locationName}>
                       <span>{location.name}</span>
                       <span>{location.state && ` - ${location.state}`} </span>
-                      <span>{location.country && ` - ${location.country}`}</span>
+                      <span>
+                        {location.country && ` - ${location.country}`}
+                      </span>
                     </span>
                   </div>
                 );
