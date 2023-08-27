@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
-import styles from './SearchPlaceModal.module.css';
 import * as fetchApi from 'utils/getRequests';
 import debouncedFunc from 'utils/debouncedFunc';
+
+import styles from './SearchPlaceModal.module.css';
 
 function SearchPlaceModal(props) {
   const { onCloseModal, onChooseLocation } = props;
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
+  const debouncedQueryLocations = debouncedFunc(
+    (trimmedSearchText) => queryLocations(trimmedSearchText),
+    500
+  );
   // Choose item from list
   function handleChooseItem(location) {
     setSearchResult([]);
@@ -19,26 +23,23 @@ function SearchPlaceModal(props) {
   }
 
   // Query locations from trimmed search input
-  const queryLocations = async(trimmedSearchText) => {
+  const queryLocations = async (trimmedSearchText) => {
     setIsLoading(true);
-    const results = await fetchApi.getLocationCoordinates(
-      trimmedSearchText
-    );
+    const results = await fetchApi.getLocationCoordinates(trimmedSearchText);
     setSearchResult(results);
     setIsLoading(false);
-  }
+  };
 
   // handle when input search location
   function handleSearchInput(e) {
     const searchText = e.target.value;
     const trimmedSearchText = searchText?.trim() ?? '';
     setSearchValue(searchText);
-    
+
     if (trimmedSearchText.length === 0) {
       return;
     }
-    const debouncedQueryLocations = debouncedFunc(() => queryLocations(trimmedSearchText), 500);
-    debouncedQueryLocations();
+    debouncedQueryLocations(trimmedSearchText);
   }
 
   return (
@@ -75,11 +76,10 @@ function SearchPlaceModal(props) {
         {Array.isArray(searchResult) && (
           <div id="locationList" className={styles.locationList}>
             {searchResult.length > 0 ? (
-              searchResult.map((location, idx) => {
+              searchResult.map((location) => {
                 return (
                   <div
                     className={styles.locationItem}
-                    key={idx}
                     onClick={() => handleChooseItem(location)}
                   >
                     <span className={styles.searchIcon}>
@@ -87,10 +87,11 @@ function SearchPlaceModal(props) {
                     </span>
                     <span className={styles.locationName}>
                       <span>{location.name}</span>
-                      <span>{location.state && ` - ${location.state}`} </span>
-                      <span>
-                        {location.country && ` - ${location.country}`}
-                      </span>
+                      {location.state && <span> ` - ${location.state}` </span>}
+
+                      {location.country && (
+                        <span>` - ${location.country}`</span>
+                      )}
                     </span>
                   </div>
                 );
