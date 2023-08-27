@@ -16,6 +16,7 @@ function Search() {
     useState(false);
   const [locationInfo, setLocationInfo] = useState();
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
+  const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation
 
   function onChooseLocation(location) {
     setLocationInfo(location);
@@ -42,11 +43,6 @@ function Search() {
       : setIsLocateAvailable(false);
   };
 
-  // handle when click on currentLocationBtn
-  function handleLoadCurrentLocation() {
-    loadCurrentLocation();
-  }
-
   // Get default location information
   useEffect(() => {
     loadCurrentLocation();
@@ -66,14 +62,10 @@ function Search() {
 
         <button
           className={styles.currentLocationBtn}
-          onClick={handleLoadCurrentLocation}
+          onClick={loadCurrentLocation}
         >
           <span
-            className={
-              isLocateAvailable
-                ? styles.currentLocationIcon
-                : styles.disabledLocation
-            }
+            className={isLocateAvailableClass}
           >
             <BiCurrentLocation size={27} />
           </span>
