@@ -11,13 +11,6 @@ function SearchPlaceModal(props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  // Choose item from list
-  function handleChooseItem(location) {
-    setSearchResult([]);
-    setSearchValue('');
-    onChooseLocation(location);
-  }
-
   // Query locations from trimmed search input
   const queryLocations = async (trimmedSearchText) => {
     setIsLoading(true);
@@ -25,6 +18,14 @@ function SearchPlaceModal(props) {
     setSearchResult(results);
     setIsLoading(false);
   };
+  const debouncedQueryLocation = debouncedFunc(queryLocations, 500)
+  // Choose item from list
+  function handleChooseItem(location) {
+    setSearchResult([]);
+    setSearchValue('');
+    onChooseLocation(location);
+  }
+
 
   // handle when input search location
   function handleSearchInput(e) {
@@ -35,7 +36,7 @@ function SearchPlaceModal(props) {
     if (trimmedSearchText.length === 0) {
       return;
     }
-    debouncedFunc(queryLocations,500)(trimmedSearchText);
+    debouncedQueryLocation(trimmedSearchText);
       }
 
   return (
