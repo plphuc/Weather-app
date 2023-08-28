@@ -11,10 +11,6 @@ function SearchPlaceModal(props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const debouncedQueryLocations = debouncedFunc(
-    (trimmedSearchText) => queryLocations(trimmedSearchText),
-  500
-  );
   // Choose item from list
   function handleChooseItem(location) {
     setSearchResult([]);
@@ -39,7 +35,7 @@ function SearchPlaceModal(props) {
     if (trimmedSearchText.length === 0) {
       return;
     }
-    debouncedQueryLocations(trimmedSearchText);
+    debouncedFunc(queryLocations,500)(trimmedSearchText);
       }
 
   return (
