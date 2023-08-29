@@ -18,14 +18,15 @@ function SearchPlaceModal(props) {
     setSearchResult(results);
     setIsLoading(false);
   };
-  const debouncedQueryLocation = debouncedFunc(queryLocations, 500)
+  
+  const debouncedQueryLocation = debouncedFunc(queryLocations, 500);
+
   // Choose item from list
   function handleChooseItem(location) {
     setSearchResult([]);
     setSearchValue('');
     onChooseLocation(location);
   }
-
 
   // handle when input search location
   function handleSearchInput(e) {
@@ -37,7 +38,7 @@ function SearchPlaceModal(props) {
       return;
     }
     debouncedQueryLocation(trimmedSearchText);
-      }
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -84,7 +85,9 @@ function SearchPlaceModal(props) {
                     </span>
                     <span className={styles.locationName}>
                       <span>{location.name}</span>
-                      {location.state && <span> {` - ${location.state}`} </span>}
+                      {location.state && (
+                        <span> {` - ${location.state}`} </span>
+                      )}
 
                       {location.country && (
                         <span>{` - ${location.country}`}</span>
