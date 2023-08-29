@@ -1,15 +1,11 @@
-import { BiCurrentLocation } from 'react-icons/bi';
+import SearchSection from 'components/SearchSection/SearchSection';
 
-import './App.css';
+import styles from './App.module.css';
 
 function App() {
   return (
-    <div className="wrapper">
-      <button className="nav-location-btn">
-        <span className="nav-location-icon">
-          <BiCurrentLocation size={27} />
-        </span>
-      </button>
+    <div className={styles.wrapper}>
+      <SearchSection/>
     </div>
   );
 }
