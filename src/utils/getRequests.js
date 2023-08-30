@@ -1,14 +1,3 @@
-export const getLocationInfo = async (longitude, latitude) => {
-  try {
-    const result = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_GET_WEATHER_KEY_API}`
-    );
-    return result.json();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const getLocationCoordinates = async (searchText) => {
   try {
     const result = await fetch(
@@ -20,3 +9,36 @@ export const getLocationCoordinates = async (searchText) => {
     console.log(error);
   }
 };
+
+export const getCurrentWeather = async (longitude, latitude) => {
+  try {
+    const result = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_GET_WEATHER_KEY_API}`
+    );
+    return result.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getNextDaysForecast = async (longitude, latitude) => {
+  try {
+    const result = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_GET_WEATHER_KEY_API}`
+    );
+    return result.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getWeatherIcon = async (iconName) => {
+  try {
+    const result = await fetch(
+      `https://openweathermap.org/img/wn/${iconName}@2x.png`
+      );
+    return result.blob();
+  } catch (error) {
+    console.log(error);
+  }
+}
