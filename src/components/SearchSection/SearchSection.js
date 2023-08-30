@@ -24,14 +24,10 @@ function SearchSection(props) {
     ? styles.currentLocationIcon
     : styles.disabledLocation;
 
-  function setWeatherForecast(data) {
-    onChangeWeatherData(data)
-  }
-
   function onChooseLocation(location) {
     const weatherForecast = fetchWeather(location.lon, location.lat);
     weatherForecast.then(data => {
-      setWeatherForecast(data)
+      onChangeWeatherData(data)
     })
     setIsSearchPlaceModalActive(false);
   }
@@ -42,7 +38,7 @@ function SearchSection(props) {
 
     const weatherForecast = fetchWeather(longitude, latitude);
     weatherForecast.then(data => {
-      setWeatherForecast(data)
+      onChangeWeatherData(data)
     })
   }
 
