@@ -8,6 +8,7 @@ import styles from './SearchPlaceModal.module.css';
 
 function SearchPlaceModal(props) {
   const { onCloseModal, onChooseLocation } = props;
+  
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
