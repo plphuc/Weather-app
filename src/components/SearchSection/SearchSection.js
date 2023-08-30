@@ -5,32 +5,45 @@ import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import * as fetchApi from 'utils/getRequests';
 import styles from './SearchSection.module.css';
 
-const fetchLocationInfo = async (longitude, latitude) => {
-  const result = await fetchApi.getLocationInfo(longitude, latitude);
-  localStorage.setItem('currentLocationInfo', JSON.stringify(result));
-  return result;
+const fetchWeather = async (longitude, latitude) => {
+  const weatherObj = {}
+  weatherObj.currentWeather = await fetchApi.getCurrentWeather(longitude, latitude);
+  localStorage.setItem('currentLocationInfo', JSON.stringify(weatherObj.currentWeather));
+
+  weatherObj.nextDaysWeather = await fetchApi.getNextDaysForecast(longitude, latitude);
+  return weatherObj;
 };
 
-function Search() {
+function SearchSection(props) {
+  const {onChangeWeatherData} = props
+
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
     useState(false);
-  const [locationInfo, setLocationInfo] = useState();
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
-  const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation
+  const isLocateAvailableClass = isLocateAvailable
+    ? styles.currentLocationIcon
+    : styles.disabledLocation;
+
+  function setWeatherForecast(data) {
+    onChangeWeatherData(data)
+  }
 
   function onChooseLocation(location) {
-    setLocationInfo(location);
+    const weatherForecast = fetchWeather(location.lon, location.lat);
+    weatherForecast.then(data => {
+      setWeatherForecast(data)
+    })
     setIsSearchPlaceModalActive(false);
   }
 
   function showPosition(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    const result = fetchLocationInfo(longitude, latitude);
 
-    result.then((data) => {
-      setLocationInfo(data);
-    });
+    const weatherForecast = fetchWeather(longitude, latitude);
+    weatherForecast.then(data => {
+      setWeatherForecast(data)
+    })
   }
 
   function showError() {
@@ -64,9 +77,7 @@ function Search() {
           className={styles.currentLocationBtn}
           onClick={loadCurrentLocation}
         >
-          <span
-            className={isLocateAvailableClass}
-          >
+          <span className={isLocateAvailableClass}>
             <BiCurrentLocation size={27} />
           </span>
         </button>
@@ -86,4 +97,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchSection;
