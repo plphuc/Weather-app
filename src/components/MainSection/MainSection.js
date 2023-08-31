@@ -1,41 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { MdLocationOn } from 'react-icons/md';
 
 import WeatherIcon from 'components/WeatherIcon/WeatherIcon';
-
+import { weatherDataContext } from 'App';
+import * as utilsFunc from 'utils/convertFunc'
 import styles from './MainSection.module.css';
 
-function convertKevinToCelcius(tempDegree) {
-  return Math.round(tempDegree - 273.15)
-}
-
-function convertDate(epochTime) {
-  let d = new Date(epochTime * 1000);
-  d = d.toString().split(' ');
-  return d[0] + ', ' + d[2] + ' ' + d[1];
-}
-
 function MainSection(props) {
-  const { data } = props;
+  const currentWeather = useContext(weatherDataContext).currentWeather
   return (
     <div className={styles.wrapper}>
       <div className={styles.weatherIconWrapper}>
-        <WeatherIcon iconName={data.weather[0].icon} />
+        <WeatherIcon iconName={currentWeather.weather[0].icon} />
       </div>
 
       <div className={styles.weatherInfoWrapper}>
         <span className={styles.temperatureInfo}>
-          {convertKevinToCelcius(data.main.temp)}°C
+          {utilsFunc.convertKevinToCelcius(currentWeather.main.temp)}°C
         </span>
         <span className={styles.weatherCondition}>
-          {data.weather[0].main}
+          {currentWeather.weather[0].main}
         </span>
         <span className={styles.dateInfo}>
-          Today • {convertDate(data.dt)}
+          Today • {utilsFunc.convertEpochToDate(currentWeather.dt)}
         </span>
         <span className={styles.locationInfo}>
           <MdLocationOn />
-          {data.name}
+          {currentWeather.name}
         </span>
       </div>
     </div>
