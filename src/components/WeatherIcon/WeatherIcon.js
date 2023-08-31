@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import * as fetchApi from 'utils/getRequests';
 import styles from './WeatherIcon.module.css';
-const fetchIcon = async (iconName) => {
-  const result = await fetchApi.getWeatherIcon(iconName);
-  return result;
-};
+
 function WeatherIcon(props) {
   const { iconName } = props;
   const [imageSourceURL, setImageSourceURL] = useState('');
 
   useEffect(() => {
-    fetchIcon(iconName).then((data) => {
-      setImageSourceURL(URL.createObjectURL(data));
-    });
+    const response = fetchApi.getWeatherIcon(iconName);
+    response.then((result) => {
+      setImageSourceURL(URL.createObjectURL(result));
+    })
   }, [iconName]);
 
   return (
