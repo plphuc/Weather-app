@@ -1,32 +1,33 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { MdLocationOn } from 'react-icons/md';
 
+import { useWeatherInfo } from 'WeatherInfoProvider';
 import WeatherIcon from 'components/WeatherIcon/WeatherIcon';
-import { weatherDataContext } from 'App';
 import * as utilsFunc from 'utils/convertFunc'
+
 import styles from './MainSection.module.css';
 
 function MainSection(props) {
-  const currentWeather = useContext(weatherDataContext).currentWeather
+  const weather = useWeatherInfo()
   return (
     <div className={styles.wrapper}>
       <div className={styles.weatherIconWrapper}>
-        <WeatherIcon iconName={currentWeather.weather[0].icon} />
+        <WeatherIcon iconName={weather.currentWeatherForecast.weather[0].icon} />
       </div>
 
       <div className={styles.weatherInfoWrapper}>
         <span className={styles.temperatureInfo}>
-          {utilsFunc.convertKevinToCelcius(currentWeather.main.temp)}°C
+          {utilsFunc.convertKevinToCelcius(weather.currentWeatherForecast.main.temp)}°C
         </span>
         <span className={styles.weatherCondition}>
-          {currentWeather.weather[0].main}
+          {weather.currentWeatherForecast.weather[0].main}
         </span>
         <span className={styles.dateInfo}>
-          Today • {utilsFunc.convertEpochToDate(currentWeather.dt)}
+          Today • {utilsFunc.convertEpochToDate(weather.currentWeatherForecast.dt)}
         </span>
         <span className={styles.locationInfo}>
           <MdLocationOn />
-          {currentWeather.name}
+          {weather.currentWeatherForecast.name}
         </span>
       </div>
     </div>

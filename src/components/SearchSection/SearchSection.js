@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 import { BiCurrentLocation } from 'react-icons/bi';
 
-import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import * as fetchApi from 'utils/getRequests';
+import { useWeatherDispatch } from 'WeatherInfoProvider';
+import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
+
 import styles from './SearchSection.module.css';
 
 const fetchWeather = async (longitude, latitude) => {
   const weatherObj = {}
-  weatherObj.currentWeather = await fetchApi.getCurrentWeather(longitude, latitude);
+  weatherObj.currentWeatherForecast = await fetchApi.getCurrentWeather(longitude, latitude);
   localStorage.setItem('currentLocationInfo', JSON.stringify(weatherObj.currentWeather));
 
-  weatherObj.nextDaysWeather = await fetchApi.getNextDaysForecast(longitude, latitude);
+  weatherObj.nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(longitude, latitude);
   return weatherObj;
 };
 
 function SearchSection(props) {
-  const {onChangeWeatherData} = props
-
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
     useState(false);
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
+  const dispatch = useWeatherDispatch()
   const isLocateAvailableClass = isLocateAvailable
     ? styles.currentLocationIcon
     : styles.disabledLocation;
@@ -27,7 +28,10 @@ function SearchSection(props) {
   function onChooseLocation(location) {
     const weatherForecast = fetchWeather(location.lon, location.lat);
     weatherForecast.then(data => {
-      onChangeWeatherData(data)
+      dispatch({
+        type: 'change', 
+        ...data
+      })
     })
     setIsSearchPlaceModalActive(false);
   }
@@ -38,7 +42,10 @@ function SearchSection(props) {
 
     const weatherForecast = fetchWeather(longitude, latitude);
     weatherForecast.then(data => {
-      onChangeWeatherData(data)
+      dispatch({
+        type: 'change', 
+        ...data
+      })
     })
   }
 
