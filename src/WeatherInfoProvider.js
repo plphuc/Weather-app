@@ -37,8 +37,8 @@ function weatherInfoReducer(state, action) {
       return {
         ...state,
         currentWeatherForecast: action.data.currentWeatherForecast,
-        nextDaysWeatherForecast: action.data.nextDaysWeatherForecast
-      }
+        nextDaysWeatherForecast: action.data.nextDaysWeatherForecast,
+      };
     }
     default: {
       throw Error('Unknown action: ' + action.type);

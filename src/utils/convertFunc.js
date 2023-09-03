@@ -4,16 +4,18 @@ export function convertKevinToCelcius(temperature) {
 
 export function convertEpochToDateObj(epochTime) {
   const date = new Date(epochTime * 1000);
-  return date
+  return date;
 }
 
 export function formatEpochToDateString(epochTime) {
-  const convertedDate = convertEpochToDateObj(epochTime)
+  const convertedDate = convertEpochToDateObj(epochTime);
   const options = {
     weekday: 'short',
-    day: '2-digit',   
-    month: 'short'    
+    day: '2-digit',
+    month: 'short',
   };
-  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(convertedDate);
-  return formattedDate
+  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+    convertedDate
+  );
+  return formattedDate;
 }
