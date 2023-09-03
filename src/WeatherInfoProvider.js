@@ -36,8 +36,8 @@ function weatherInfoReducer(state, action) {
     case 'change': {
       return {
         ...state,
-        currentWeatherForecast: action.currentWeatherForecast,
-        nextDaysWeatherForecast: action.nextDaysWeatherForecast
+        currentWeatherForecast: action.data.currentWeatherForecast,
+        nextDaysWeatherForecast: action.data.nextDaysWeatherForecast
       }
     }
     default: {

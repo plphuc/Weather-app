@@ -17,7 +17,7 @@ const fetchWeather = async (longitude, latitude) => {
     longitude,
     latitude
   );
-  return {currentWeatherForecast, nextDaysWeatherForecast};
+  return { currentWeatherForecast, nextDaysWeatherForecast };
 };
 
 function SearchSection(props) {
@@ -30,25 +30,20 @@ function SearchSection(props) {
     : styles.disabledLocation;
 
   function onChooseLocation(location) {
-    const weatherForecast = fetchWeather(location.lon, location.lat);
-    weatherForecast.then((data) => {
-      dispatch({
-        type: 'change',
-        ...data,
-      });
-    });
+    dispatchWeatherInfo(location.lon, location.lat);
     setIsSearchPlaceModalActive(false);
   }
 
   function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
+    dispatchWeatherInfo(position.coords.longitude, position.coords.latitude);
+  }
 
-    const weatherForecast = fetchWeather(longitude, latitude);
+  function dispatchWeatherInfo(lon, lat) {
+    const weatherForecast = fetchWeather(lon, lat);
     weatherForecast.then((data) => {
       dispatch({
         type: 'change',
-        ...data,
+        data,
       });
     });
   }

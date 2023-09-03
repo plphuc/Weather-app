@@ -1,7 +1,6 @@
 import MainSection from 'components/MainSection/MainSection';
 // import DetailsSection from 'components/DetailsSection/DetailsSection';
 import SearchSection from 'components/SearchSection/SearchSection';
-import { useWeatherInfo } from 'WeatherInfoProvider';
 
 import styles from './App.module.css';
 
