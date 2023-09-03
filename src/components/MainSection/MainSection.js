@@ -10,11 +10,8 @@ import styles from './MainSection.module.css';
 function MainSection(props) {
   const weatherInfo = useWeatherInfo();
   const { main, weather } = weatherInfo.currentWeatherForecast || {};
-  const dateString =
-    weatherInfo.currentWeatherForecast &&
-    utilsFunc.formatEpochToDateString(weatherInfo.currentWeatherForecast.dt);
-  const temperature =
-    main && Math.round(utilsFunc.convertKevinToCelcius(main.temp));
+  const dateString = weatherInfo.currentWeatherForecast && utilsFunc.formatEpochToDateString(weatherInfo.currentWeatherForecast.dt);
+  const temperature = main && Math.round(utilsFunc.convertKevinToCelcius(main.temp));
   return (
     weatherInfo.currentWeatherForecast && (
       <div className={styles.wrapper}>

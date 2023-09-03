@@ -9,16 +9,11 @@ const initialWeatherInfo = {
 };
 
 export function WeatherInfoProvider({ children }) {
-  const [weather, dispatch] = useReducer(
-    weatherInfoReducer,
-    initialWeatherInfo
-  );
+  const [weather, dispatch] = useReducer(weatherInfoReducer, initialWeatherInfo);
 
   return (
     <WeatherContext.Provider value={weather}>
-      <WeatherDispatchContext.Provider value={dispatch}>
-        {children}
-      </WeatherDispatchContext.Provider>
+      <WeatherDispatchContext.Provider value={dispatch}>{children}</WeatherDispatchContext.Provider>
     </WeatherContext.Provider>
   );
 }

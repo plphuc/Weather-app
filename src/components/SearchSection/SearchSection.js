@@ -8,26 +8,17 @@ import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import styles from './SearchSection.module.css';
 
 const fetchWeather = async (longitude, latitude) => {
-  const currentWeatherForecast = await fetchApi.getCurrentWeather(
-    longitude,
-    latitude
-  );
+  const currentWeatherForecast = await fetchApi.getCurrentWeather(longitude, latitude);
 
-  const nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(
-    longitude,
-    latitude
-  );
+  const nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(longitude, latitude);
   return { currentWeatherForecast, nextDaysWeatherForecast };
 };
 
 function SearchSection(props) {
-  const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
-    useState(false);
+  const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] = useState(false);
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
   const dispatch = useWeatherDispatch();
-  const isLocateAvailableClass = isLocateAvailable
-    ? styles.currentLocationIcon
-    : styles.disabledLocation;
+  const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation;
 
   function onChooseLocation(location) {
     dispatchWeatherInfo(location.lon, location.lat);
@@ -53,9 +44,7 @@ function SearchSection(props) {
   }
 
   const loadCurrentLocation = function () {
-    navigator.geolocation
-      ? navigator.geolocation.getCurrentPosition(showPosition, showError)
-      : setIsLocateAvailable(false);
+    navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : setIsLocateAvailable(false);
   };
 
   // Get default location information
@@ -75,10 +64,7 @@ function SearchSection(props) {
           <span>Search For Places</span>
         </button>
 
-        <button
-          className={styles.currentLocationBtn}
-          onClick={loadCurrentLocation}
-        >
+        <button className={styles.currentLocationBtn} onClick={loadCurrentLocation}>
           <span className={isLocateAvailableClass}>
             <BiCurrentLocation size={27} />
           </span>

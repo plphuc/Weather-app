@@ -11,7 +11,7 @@ function SearchPlaceModal(props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Query locations from trimmed search input
   const queryLocations = async (trimmedSearchText) => {
     setIsLoading(true);
@@ -19,7 +19,7 @@ function SearchPlaceModal(props) {
     setSearchResult(results);
     setIsLoading(false);
   };
-  
+
   const debouncedQueryLocation = debouncedFunc(queryLocations, 500);
 
   // Choose item from list
@@ -59,13 +59,7 @@ function SearchPlaceModal(props) {
             <span className={styles.loadingIcon}></span>
           )}
 
-          <input
-            id="searchInput"
-            className={styles.inputSearch}
-            placeholder="search location"
-            value={searchValue}
-            onInput={handleSearchInput}
-          />
+          <input id="searchInput" className={styles.inputSearch} placeholder="search location" value={searchValue} onInput={handleSearchInput} />
         </div>
       </div>
 
@@ -77,22 +71,15 @@ function SearchPlaceModal(props) {
             {searchResult.length > 0 ? (
               searchResult.map((location) => {
                 return (
-                  <div
-                    className={styles.locationItem}
-                    onClick={() => handleChooseItem(location)}
-                  >
+                  <div className={styles.locationItem} onClick={() => handleChooseItem(location)}>
                     <span className={styles.searchIcon}>
                       <IoSearch size={24} />
                     </span>
                     <span className={styles.locationName}>
                       <span>{location.name}</span>
-                      {location.state && (
-                        <span> {` - ${location.state}`} </span>
-                      )}
+                      {location.state && <span> {` - ${location.state}`} </span>}
 
-                      {location.country && (
-                        <span>{` - ${location.country}`}</span>
-                      )}
+                      {location.country && <span>{` - ${location.country}`}</span>}
                     </span>
                   </div>
                 );
