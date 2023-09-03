@@ -31,14 +31,3 @@ export const getNextDaysForecast = async (longitude, latitude) => {
     console.log(error);
   }
 };
-
-export const getWeatherIcon = async (iconName) => {
-  try {
-    const result = await fetch(
-      `https://openweathermap.org/img/wn/${iconName}@2x.png`
-      );
-    return result.blob();
-  } catch (error) {
-    console.log(error);
-  }
-}

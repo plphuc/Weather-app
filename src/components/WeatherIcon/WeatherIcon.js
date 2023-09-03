@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import * as fetchApi from 'utils/getRequests';
+import React from 'react';
 import styles from './WeatherIcon.module.css';
 
 function WeatherIcon(props) {
   const { iconName } = props;
-  const [imageSourceURL, setImageSourceURL] = useState('');
-
-  useEffect(() => {
-    const response = fetchApi.getWeatherIcon(iconName);
-    response.then((result) => {
-      setImageSourceURL(URL.createObjectURL(result));
-    })
-  }, [iconName]);
+  const iconUrl = `https://openweathermap.org/img/wn/${iconName}@2x.png`
 
   return (
       <img
         className={styles.weatherIcon}
-        src={imageSourceURL}
+        src={iconUrl}
         alt="weather-icon"
       ></img>
   );
