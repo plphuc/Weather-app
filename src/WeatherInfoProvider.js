@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { createContext, useReducer } from 'react';
+import { useContext, createContext, useReducer } from 'react';
 
-const weatherContext = createContext();
-const weatherDispatchContext = createContext();
+const WeatherContext = createContext();
+const WeatherDispatchContext = createContext();
 
 const initialWeatherInfo = {
   currentWeatherForecast: null,
@@ -16,20 +15,20 @@ export function WeatherInfoProvider({ children }) {
   );
 
   return (
-    <weatherContext.Provider value={weather}>
-      <weatherDispatchContext.Provider value={dispatch}>
+    <WeatherContext.Provider value={weather}>
+      <WeatherDispatchContext.Provider value={dispatch}>
         {children}
-      </weatherDispatchContext.Provider>
-    </weatherContext.Provider>
+      </WeatherDispatchContext.Provider>
+    </WeatherContext.Provider>
   );
 }
 
 export function useWeatherInfo() {
-  return useContext(weatherContext);
+  return useContext(WeatherContext);
 }
 
 export function useWeatherDispatch() {
-  return useContext(weatherDispatchContext);
+  return useContext(WeatherDispatchContext);
 }
 
 function weatherInfoReducer(state, action) {
