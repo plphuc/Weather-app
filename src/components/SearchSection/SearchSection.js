@@ -8,11 +8,16 @@ import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import styles from './SearchSection.module.css';
 
 const fetchWeather = async (longitude, latitude) => {
-  const weatherObj = {}
-  weatherObj.currentWeatherForecast = await fetchApi.getCurrentWeather(longitude, latitude);
-  localStorage.setItem('currentLocationInfo', JSON.stringify(weatherObj.currentWeather));
+  const weatherObj = {};
+  weatherObj.currentWeatherForecast = await fetchApi.getCurrentWeather(
+    longitude,
+    latitude
+  );
 
-  weatherObj.nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(longitude, latitude);
+  weatherObj.nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(
+    longitude,
+    latitude
+  );
   return weatherObj;
 };
 
@@ -20,19 +25,19 @@ function SearchSection(props) {
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
     useState(false);
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
-  const dispatch = useWeatherDispatch()
+  const dispatch = useWeatherDispatch();
   const isLocateAvailableClass = isLocateAvailable
     ? styles.currentLocationIcon
     : styles.disabledLocation;
 
   function onChooseLocation(location) {
     const weatherForecast = fetchWeather(location.lon, location.lat);
-    weatherForecast.then(data => {
+    weatherForecast.then((data) => {
       dispatch({
-        type: 'change', 
-        ...data
-      })
-    })
+        type: 'change',
+        ...data,
+      });
+    });
     setIsSearchPlaceModalActive(false);
   }
 
@@ -41,12 +46,12 @@ function SearchSection(props) {
     const longitude = position.coords.longitude;
 
     const weatherForecast = fetchWeather(longitude, latitude);
-    weatherForecast.then(data => {
+    weatherForecast.then((data) => {
       dispatch({
-        type: 'change', 
-        ...data
-      })
-    })
+        type: 'change',
+        ...data,
+      });
+    });
   }
 
   function showError() {
