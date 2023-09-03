@@ -8,17 +8,16 @@ import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 import styles from './SearchSection.module.css';
 
 const fetchWeather = async (longitude, latitude) => {
-  const weatherObj = {};
-  weatherObj.currentWeatherForecast = await fetchApi.getCurrentWeather(
+  const currentWeatherForecast = await fetchApi.getCurrentWeather(
     longitude,
     latitude
   );
 
-  weatherObj.nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(
+  const nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(
     longitude,
     latitude
   );
-  return weatherObj;
+  return {currentWeatherForecast, nextDaysWeatherForecast};
 };
 
 function SearchSection(props) {
