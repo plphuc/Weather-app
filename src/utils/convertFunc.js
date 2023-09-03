@@ -1,9 +1,19 @@
-export function convertKevinToCelcius(tempDegree) {
-  return Math.round(tempDegree - 273.15)
+export function convertKevinToCelcius(temperature) {
+  return temperature - 273.15;
 }
 
-export function convertEpochToDate(epochTime) {
+export function convertEpochToDateObj(epochTime) {
   const date = new Date(epochTime * 1000);
-  const convertedDate = date.toString().split(' ');
-  return convertedDate[0] + ', ' + convertedDate[2] + ' ' + convertedDate[1];
+  return date
+}
+
+export function formatEpochToDateString(epochTime) {
+  const convertedDate = convertEpochToDateObj(epochTime)
+  const options = {
+    weekday: 'short',
+    day: '2-digit',   
+    month: 'short'    
+  };
+  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(convertedDate);
+  return formattedDate
 }
