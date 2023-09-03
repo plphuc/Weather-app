@@ -9,7 +9,7 @@ import styles from './MainSection.module.css';
 
 function MainSection(props) {
   const weatherInfo = useWeatherInfo();
-  const { main, weather } = weatherInfo.currentWeatherForecast || '';
+  const { main, weather } = weatherInfo.currentWeatherForecast || {};
   const dateString =
     weatherInfo.currentWeatherForecast &&
     utilsFunc.formatEpochToDateString(weatherInfo.currentWeatherForecast.dt);
