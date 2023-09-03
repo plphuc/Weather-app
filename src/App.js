@@ -6,13 +6,11 @@ import { useWeatherInfo } from 'WeatherInfoProvider';
 import styles from './App.module.css';
 
 function App() {
-  const weatherInfo = useWeatherInfo();
   return (
     <div className={styles.wrapper}>
       <div className={styles.mainSectionWrapper}>
         <SearchSection />
-
-        {weatherInfo.currentWeatherForecast && weatherInfo.nextDaysWeatherForecast && <MainSection />}
+        <MainSection />
       </div>
 
       {/* {Object.keys(weatherForecast).length !== 0 && (
