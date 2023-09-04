@@ -1,5 +1,14 @@
 import { useContext, createContext, useReducer } from 'react';
 
+import * as fetchApi from 'utils/getRequests';
+
+const fetchWeather = async (longitude, latitude) => {
+  const currentWeatherForecast = await fetchApi.getCurrentWeather(longitude, latitude);
+
+  const nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(longitude, latitude);
+  return { currentWeatherForecast, nextDaysWeatherForecast };
+};
+
 const WeatherContext = createContext();
 const WeatherDispatchContext = createContext();
 
@@ -22,8 +31,21 @@ export function useWeatherInfo() {
   return useContext(WeatherContext);
 }
 
-export function useWeatherDispatch() {
+function useWeatherInfoDispatch() {
   return useContext(WeatherDispatchContext);
+}
+
+export function useUpdateWeather() {
+  const dispatch = useWeatherInfoDispatch()
+  return (lon, lat) => {
+    const weatherForecast = fetchWeather(lon, lat);
+    weatherForecast.then((data) => {
+      dispatch({
+        type: 'change',
+        data,
+      });
+    });
+  };
 }
 
 function weatherInfoReducer(state, action) {
