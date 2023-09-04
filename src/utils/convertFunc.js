@@ -14,6 +14,6 @@ export function formatEpochToDateString(epochTime) {
     day: '2-digit',
     month: 'short',
   };
-  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(convertedDate);
+  const formattedDate = convertedDate.toLocaleDateString(undefined, options)
   return formattedDate;
 }
