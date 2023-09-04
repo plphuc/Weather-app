@@ -3,14 +3,16 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 
 import * as fetchApi from 'utils/getRequests';
 import debouncedFunc from 'utils/debouncedFunc';
+import { useUpdateWeather } from 'WeatherInfoProvider';
 
 import styles from './SearchPlaceModal.module.css';
 
 function SearchPlaceModal(props) {
-  const { onCloseModal, onChooseLocation } = props;
+  const { onCloseModal } = props;
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useUpdateWeather();
 
   // Query locations from trimmed search input
   const queryLocations = async (trimmedSearchText) => {
@@ -26,7 +28,8 @@ function SearchPlaceModal(props) {
   function handleChooseItem(location) {
     setSearchResult([]);
     setSearchValue('');
-    onChooseLocation(location);
+    dispatch(location.lon, location.lat);
+    onCloseModal();
   }
 
   // handle when input search location

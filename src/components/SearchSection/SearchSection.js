@@ -12,11 +12,6 @@ function SearchSection(props) {
   const dispatch = useUpdateWeather();
   const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation;
 
-  function onChooseLocation(location) {
-    dispatch(location.lon, location.lat);
-    setIsSearchPlaceModalActive(false);
-  }
-
   function showPosition(position) {
     dispatch(position.coords.longitude, position.coords.latitude);
   }
@@ -54,7 +49,6 @@ function SearchSection(props) {
       {isSearchPlaceModalActive && (
         <div className={styles.searchModalContainer}>
           <SearchPlaceModal
-            onChooseLocation={onChooseLocation}
             onCloseModal={() => {
               setIsSearchPlaceModalActive(false);
             }}
