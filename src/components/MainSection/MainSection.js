@@ -8,24 +8,23 @@ import * as utilsFunc from 'utils/convertFunc';
 import styles from './MainSection.module.css';
 
 function MainSection(props) {
-  const weatherInfo = useWeatherInfo();
-  const { main, weather } = weatherInfo.currentWeatherForecast || {};
-  const dateString = weatherInfo.currentWeatherForecast && utilsFunc.formatEpochToDateString(weatherInfo.currentWeatherForecast.dt);
-  const temperature = main && Math.round(utilsFunc.convertKevinToCelcius(main.temp));
+  const {location, current} = useWeatherInfo();
+  const dateString = current && utilsFunc.formatDateString(current.date);
+  const temperature = current?.temperature && Math.round(utilsFunc.convertKevinToCelcius(current.temperature));
   return (
-    weatherInfo.currentWeatherForecast && (
+    current && (
       <div className={styles.wrapper}>
         <div className={styles.weatherIconWrapper}>
-          <WeatherIcon iconName={weather[0].icon} />
+          <WeatherIcon iconName={current.iconName} />
         </div>
 
         <div className={styles.weatherInfoWrapper}>
           <span className={styles.temperatureInfo}>{temperature}°C</span>
-          <span className={styles.weatherCondition}>{weather[0].main}</span>
+          <span className={styles.weatherCondition}>{current.weatherName}</span>
           <span className={styles.dateInfo}>Today • {dateString}</span>
           <span className={styles.locationInfo}>
             <MdLocationOn />
-            {weatherInfo.currentWeatherForecast.name}
+            {location}
           </span>
         </div>
       </div>
