@@ -1,14 +1,11 @@
+const options = {
+  weekday: 'short',
+  day: '2-digit',
+  month: 'short',
+};
+
 export function convertKevinToCelcius(temperature) {
   return temperature - 273.15;
 }
 
-export function formatDateString(dateString) {
-  const dateObj = new Date(dateString);
-  const options = {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-  };
-  const formattedDate = dateObj.toLocaleDateString(undefined, options)
-  return formattedDate;
-}
+export const formatDateString = (dateString) => new Date(dateString).toLocaleDateString(undefined, options);

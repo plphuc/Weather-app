@@ -8,9 +8,9 @@ import * as utilsFunc from 'utils/convertFunc';
 import styles from './MainSection.module.css';
 
 function MainSection(props) {
-  const {location, current} = useWeatherInfo();
-  const dateString = current && utilsFunc.formatDateString(current.date);
-  const temperature = current?.temperature && Math.round(utilsFunc.convertKevinToCelcius(current.temperature));
+  const { location, current } = useWeatherInfo();
+  const dateString = current ? utilsFunc.formatDateString(current.date) : '';
+  const temperature = current?.temperature ? Math.round(utilsFunc.convertKevinToCelcius(current.temperature)) : '';
   return (
     current && (
       <div className={styles.wrapper}>
