@@ -12,7 +12,7 @@ function SearchPlaceModal(props) {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useUpdateWeather();
+  const updateWeather = useUpdateWeather();
 
   // Query locations from trimmed search input
   const queryLocations = async (trimmedSearchText) => {
@@ -28,7 +28,7 @@ function SearchPlaceModal(props) {
   function handleChooseItem(location) {
     setSearchResult([]);
     setSearchValue('');
-    dispatch(location.lon, location.lat);
+    updateWeather(location.lon, location.lat);
     onCloseModal();
   }
 
