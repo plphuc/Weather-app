@@ -11,28 +11,23 @@ const extractInfoFromWeatherObj = (weatherInfoObj) => {
   return { date, iconName, weatherName, temperature };
 };
 
-const extractWeatherInfoFromFetch = ({ currentWeatherForecast, nextDaysWeatherForecast }) => {
-  const nextDaysForecast = [];
-  nextDaysWeatherForecast.list.forEach((weatherForecastInDay) => {
+const extractWeatherInfoFromFetch = ({ current, nextDays }) => {
+  const nextDayForecastList = nextDays.list.reduce((nextDayForecastList, weatherForecastInDay) => {
     const date = new Date(weatherForecastInDay.dt_txt);
-
-    // Just add a weather forecast for a day
-    if (nextDaysForecast.length === 0 || date.getDate() !== nextDaysForecast[nextDaysForecast.length - 1].date.getDate()) {
+    if (nextDayForecastList.length === 0 || date.getDate() !== nextDayForecastList[nextDayForecastList.length - 1].date.getDate()) {
       const nextDayForecast = extractInfoFromWeatherObj(weatherForecastInDay);
-      nextDaysForecast.push(nextDayForecast);
+      return [...nextDayForecastList, nextDayForecast]
     }
-  });
-  const location = currentWeatherForecast.name;
+    return nextDayForecastList
+  }, []);
 
-  return { location, current: extractInfoFromWeatherObj(currentWeatherForecast), nextDays: nextDaysForecast };
+  return { location: current.name, current: extractInfoFromWeatherObj(current), nextDays: nextDayForecastList };
 };
 
-const fetchWeather = async (longitude, latitude) => {
-  const currentWeatherForecast = await fetchApi.getCurrentWeather(longitude, latitude);
-  const nextDaysWeatherForecast = await fetchApi.getNextDaysForecast(longitude, latitude);
-
-  return { currentWeatherForecast, nextDaysWeatherForecast };
-};
+const fetchWeather = async (longitude, latitude) => ({
+  current: await fetchApi.getCurrentWeather(longitude, latitude),
+  nextDays: await fetchApi.getNextDaysForecast(longitude, latitude),
+});
 
 const WeatherContext = createContext();
 const WeatherDispatchContext = createContext();
@@ -63,16 +58,13 @@ function useWeatherInfoDispatch() {
 
 export function useUpdateWeather() {
   const dispatch = useWeatherInfoDispatch();
-  return (lon, lat) => {
-    const weatherForecast = fetchWeather(lon, lat);
-    weatherForecast.then((data) => {
-      const extractedWeatherInfo = extractWeatherInfoFromFetch(data);
+  return (lon, lat) =>
+    fetchWeather(lon, lat).then((data) => {
       dispatch({
         type: 'change',
-        data: extractedWeatherInfo,
+        data: extractWeatherInfoFromFetch(data),
       });
     });
-  };
 }
 
 function weatherInfoReducer(state, action) {
