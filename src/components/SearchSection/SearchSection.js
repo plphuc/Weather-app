@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import { BiCurrentLocation } from 'react-icons/bi';
 
 import { useUpdateWeather } from 'WeatherInfoProvider';
 import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
 
 import styles from './SearchSection.module.css';
+import LocateBtn from 'components/LocateBtn/LocateBtn';
 
 function SearchSection(props) {
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] = useState(false);
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
-  const dispatch = useUpdateWeather();
-  const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation;
+  const updateWeather = useUpdateWeather();
 
   function showPosition(position) {
-    dispatch(position.coords.longitude, position.coords.latitude);
+    updateWeather(position.coords.longitude, position.coords.latitude);
   }
 
   function showError() {
@@ -39,11 +38,7 @@ function SearchSection(props) {
           <span>Search For Places</span>
         </button>
 
-        <button className={styles.currentLocationBtn} onClick={loadCurrentLocation}>
-          <span className={isLocateAvailableClass}>
-            <BiCurrentLocation size={27} />
-          </span>
-        </button>
+        <LocateBtn onLocateLocation={loadCurrentLocation} isLocateAvailable={isLocateAvailable}/>
       </div>
 
       {isSearchPlaceModalActive && (
