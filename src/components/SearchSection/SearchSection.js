@@ -1,30 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useUpdateWeather } from 'WeatherInfoProvider';
 import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
+import LocateButton from 'components/LocateButton/LocateButton';
 
 import styles from './SearchSection.module.css';
-import LocateBtn from 'components/LocateBtn/LocateBtn';
 
 function SearchSection(props) {
   const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] = useState(false);
-  const [isLocateAvailable, setIsLocateAvailable] = useState(true);
-  const updateWeather = useUpdateWeather();
-
-  function showPosition(position) {
-    updateWeather(position.coords.longitude, position.coords.latitude);
-  }
-
-  function showError() {
-    setIsLocateAvailable(false);
-  }
-
-  const loadCurrentLocation = function () {
-    navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : setIsLocateAvailable(false);
-  };
-
-  // Get default location information
-  useEffect(() => loadCurrentLocation(), []);
 
   return (
     <div className={styles.wrapper}>
@@ -38,7 +20,7 @@ function SearchSection(props) {
           <span>Search For Places</span>
         </button>
 
-        <LocateBtn onLocateLocation={loadCurrentLocation} isLocateAvailable={isLocateAvailable}/>
+        <LocateButton />
       </div>
 
       {isSearchPlaceModalActive && (
