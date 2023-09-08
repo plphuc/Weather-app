@@ -2,7 +2,8 @@ import { useContext, createContext, useReducer } from 'react';
 
 import * as fetchApi from 'utils/getRequests';
 
-const isNextDay = (nextDayForecastList, currentDay, date) => {
+const isNextDay = (nextDayForecastList, currentDay, dateString) => {
+  const date = new Date(dateString);
   if (nextDayForecastList.length === 0) {
     return currentDay.getDate() !== date.getDate();
   }
@@ -22,8 +23,7 @@ const extractWeatherInfoFromFetch = ({ current, nextDays }) => {
   const currentDay = new Date(current.dt * 1000);
 
   const nextDayForecastList = nextDays.list.reduce((nextDayForecastList, weatherForecastInDay) => {
-    const date = new Date(weatherForecastInDay.dt_txt);
-    if (!isNextDay(nextDayForecastList, currentDay, date)) {
+    if (!isNextDay(nextDayForecastList, currentDay, weatherForecastInDay.dt_txt)) {
       return nextDayForecastList;
     }
     const nextDayForecast = extractInfoFromWeatherObj(weatherForecastInDay);
