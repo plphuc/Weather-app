@@ -1,11 +1,11 @@
 function debouncedFunc(debouncedFunction, delay) {
-  let timer
+  let timer;
   return (...args) => {
-    clearTimeout(timer)
+    clearTimeout(timer);
     timer = setTimeout(() => {
-      debouncedFunction.apply(this, args)
-    }, delay)
-  }
+      debouncedFunction.apply(this, args);
+    }, delay);
+  };
 }
 
-export default debouncedFunc
+export default debouncedFunc;

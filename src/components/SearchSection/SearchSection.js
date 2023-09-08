@@ -1,52 +1,12 @@
-import { useEffect, useState } from 'react';
-import { BiCurrentLocation } from 'react-icons/bi';
+import { useState } from 'react';
 
 import SearchPlaceModal from 'components/SearchPlaceModal/SearchPlaceModal';
-import * as fetchApi from 'utils/getRequests';
+import LocateButton from 'components/LocateButton/LocateButton';
+
 import styles from './SearchSection.module.css';
 
-const fetchLocationInfo = async (longitude, latitude) => {
-  const result = await fetchApi.getLocationInfo(longitude, latitude);
-  localStorage.setItem('currentLocationInfo', JSON.stringify(result));
-  return result;
-};
-
-function Search() {
-  const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] =
-    useState(false);
-  const [locationInfo, setLocationInfo] = useState();
-  const [isLocateAvailable, setIsLocateAvailable] = useState(true);
-  const isLocateAvailableClass = isLocateAvailable ? styles.currentLocationIcon : styles.disabledLocation
-
-  function onChooseLocation(location) {
-    setLocationInfo(location);
-    setIsSearchPlaceModalActive(false);
-  }
-
-  function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const result = fetchLocationInfo(longitude, latitude);
-
-    result.then((data) => {
-      setLocationInfo(data);
-    });
-  }
-
-  function showError() {
-    setIsLocateAvailable(false);
-  }
-
-  const loadCurrentLocation = function () {
-    navigator.geolocation
-      ? navigator.geolocation.getCurrentPosition(showPosition, showError)
-      : setIsLocateAvailable(false);
-  };
-
-  // Get default location information
-  useEffect(() => {
-    loadCurrentLocation();
-  }, []);
+function SearchSection(props) {
+  const [isSearchPlaceModalActive, setIsSearchPlaceModalActive] = useState(false);
 
   return (
     <div className={styles.wrapper}>
@@ -60,22 +20,12 @@ function Search() {
           <span>Search For Places</span>
         </button>
 
-        <button
-          className={styles.currentLocationBtn}
-          onClick={loadCurrentLocation}
-        >
-          <span
-            className={isLocateAvailableClass}
-          >
-            <BiCurrentLocation size={27} />
-          </span>
-        </button>
+        <LocateButton />
       </div>
 
       {isSearchPlaceModalActive && (
         <div className={styles.searchModalContainer}>
           <SearchPlaceModal
-            onChooseLocation={onChooseLocation}
             onCloseModal={() => {
               setIsSearchPlaceModalActive(false);
             }}
@@ -86,4 +36,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchSection;
