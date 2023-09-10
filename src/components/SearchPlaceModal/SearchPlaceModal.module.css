@@ -101,7 +101,8 @@
 }
 
 .locationList {
-  overflow: scroll;
+  width: 100%;
+  overflow: hidden;
 }
 
 .locationItem {
