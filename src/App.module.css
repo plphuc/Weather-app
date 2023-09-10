@@ -1,5 +1,6 @@
 .mainSectionWrapper {
   height: 100vh;
+  background-color: var(--main-color);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -19,4 +20,3 @@
     background-repeat: no-repeat;
   }
 }
-
