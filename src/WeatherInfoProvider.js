@@ -15,8 +15,14 @@ const extractInfoFromWeatherObj = (weatherInfoObj) => {
   const iconName = weatherInfoObj.weather[0].icon;
   const weatherName = weatherInfoObj.weather[0].main;
   const temperature = weatherInfoObj.main.temp;
-
-  return { date, iconName, weatherName, temperature };
+  const tempMax = weatherInfoObj.main.temp_max;
+  const tempMin = weatherInfoObj.main.temp_min;
+  const windInfo = weatherInfoObj.wind;
+  const humidity = weatherInfoObj.main.humidity;
+  const visibility = weatherInfoObj.visibility;
+  const airPressure = weatherInfoObj.main.pressure;
+  
+  return { date, iconName, weatherName, temperature, tempMax, tempMin, windInfo, humidity, visibility, airPressure };
 };
 
 const extractWeatherInfoFromFetch = ({ current, nextDays }) => {
