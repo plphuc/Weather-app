@@ -4,7 +4,9 @@
 :root {
   --general-font: 'Raleway', sans-serifs;
 
-  --background-color: #1e213a;
+  --background-color: #100e1d;
+  --main-color: #1e213a;
+  --card-background-color: #1e213a;
   --main-text-color: #e7e7eb;
   --des-text-color: #88869d;
 }
