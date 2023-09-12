@@ -28,7 +28,7 @@ function HumidityStatus(props) {
     <HighlightCard title="Humidity">
       <span className={styles.valueInfo}>{humidity}%</span>
       <div className={styles.humidBarWrapper}>
-        <ProgressBar humidityPercentage={humidity} progressBarClass={styles.humidBarContainer} />
+        <ProgressBar humidityPercentage={humidity} progressBarClassName={styles.humidBarContainer} />
       </div>
     </HighlightCard>
   );
