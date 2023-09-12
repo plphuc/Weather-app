@@ -1,0 +1,45 @@
+.todayHighLightWrapper {
+  padding: 30px 50px;
+  flex: 1;
+}
+
+.todayHighLightContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.todayHighLightTitle {
+  display: block;
+  margin-bottom: 30px;
+  color: var(--main-text-color);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.valueInfo {
+  font-size: 64px;
+  color: var(--main-text-color);
+}
+
+.humidBarWrapper {
+  width: 80%;
+  height: 100%;
+}
+
+.humidBarContainer {
+  height: 8px;
+}
+
+.windDirectionWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--main-text-color);
+  gap: 10px;
+}
+
+.windDirectionIcon {
+  color: var(--des-text-color);
+}

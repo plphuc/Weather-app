@@ -1,0 +1,23 @@
+.wrapper {
+  height: 200px;
+  width: 100%;
+  background-color: var(--card-background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 16px;
+  color: var(--des-text-color);
+}
+
+.childrenWrapper {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

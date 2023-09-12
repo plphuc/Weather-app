@@ -11,12 +11,18 @@ const isNextDay = (nextDayForecastList, currentDay, dateString) => {
 };
 
 const extractInfoFromWeatherObj = (weatherInfoObj) => {
-  const date = new Date(weatherInfoObj.dt_txt || weatherInfoObj.dt * 1000);
-  const iconName = weatherInfoObj.weather[0].icon;
-  const weatherName = weatherInfoObj.weather[0].main;
-  const temperature = weatherInfoObj.main.temp;
-
-  return { date, iconName, weatherName, temperature };
+  return {
+    date: new Date(weatherInfoObj.dt_txt || weatherInfoObj.dt * 1000),
+    iconName: weatherInfoObj.weather[0].icon,
+    weatherName: weatherInfoObj.weather[0].main,
+    temperature: weatherInfoObj.main.temp,
+    temperatureMax: weatherInfoObj.main.temp_max,
+    temperatureMin: weatherInfoObj.main.temp_min,
+    windInfo: weatherInfoObj.wind,
+    humidity: weatherInfoObj.main.humidity,
+    visibility: weatherInfoObj.visibility,
+    airPressure: weatherInfoObj.main.pressure,
+  };
 };
 
 const extractWeatherInfoFromFetch = ({ current, nextDays }) => {
