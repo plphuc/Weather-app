@@ -1,7 +1,7 @@
-import styles from './HighlightCard.module.css'
+import styles from './HighlightCard.module.css';
 
 function HighlightCard(props) {
-  const {title, children} = props
+  const { title, children } = props;
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>

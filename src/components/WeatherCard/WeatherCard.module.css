@@ -11,12 +11,12 @@
   justify-content: center;
 }
 
-.weatherTemp {
+.weatherTemperature {
   width: 100%;
   display: flex;
   justify-content: space-around;
 }
 
-.minTemp {
+.minTemperature {
   color: var(--des-text-color);
 }
