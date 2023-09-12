@@ -1,4 +1,3 @@
-
 .todayHighLightWrapper {
   padding: 30px 50px;
   flex: 1;
@@ -26,6 +25,11 @@
 
 .humidBarWrapper {
   width: 80%;
+  height: 100%;
+}
+
+.humidBarContainer {
+  height: 8px;
 }
 
 .windDirectionWrapper {
