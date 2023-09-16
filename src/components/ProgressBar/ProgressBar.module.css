@@ -16,14 +16,14 @@
 
 .container {
   width: 100%;
-  background: #E7E7EB;
+  background: #e7e7eb;
   border-radius: 15px;
   position: relative;
 }
 
 .pastProgress {
   height: inherit;
-  background: #FFEC65;
+  background: #ffec65;
   border-radius: 15px;
 
   position: absolute;
