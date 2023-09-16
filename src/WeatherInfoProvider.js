@@ -11,6 +11,7 @@ const isNextDay = (nextDayForecastList, currentDay, dateString) => {
 };
 
 const extractInfoFromWeatherObj = (weatherInfoObj) => {
+  console.log(weatherInfoObj);
   return {
     date: new Date(weatherInfoObj.dt_txt || weatherInfoObj.dt * 1000),
     iconName: weatherInfoObj.weather[0].icon,
