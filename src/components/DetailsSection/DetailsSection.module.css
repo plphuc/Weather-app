@@ -3,15 +3,13 @@
   flex-direction: column;
   gap: 20px;
   height: 100%;
+  box-sizing: content-box;
 }
 
 .nextDaysForecastWrapper {
-  height: 250px;
-  overflow: hidden;
-  padding: 50px;
-  
+  height: 250px;  
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   gap: 30px;
 }
