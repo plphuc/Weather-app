@@ -113,6 +113,7 @@
   padding: 12px;
   border-top: 1px solid #616475;
   color: var(--main-text-color);
+  cursor: pointer;
 
   display: flex;
   justify-content: space-between;
