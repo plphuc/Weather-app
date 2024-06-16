@@ -1,13 +1,16 @@
-import { useContext, createContext, useReducer } from 'react';
+import { useContext, createContext, useReducer } from "react";
 
-import * as fetchApi from 'utils/getRequests';
+import * as fetchApi from "utils/getRequests";
 
 const isNextDay = (nextDayForecastList, currentDay, dateString) => {
   const date = new Date(dateString);
   if (nextDayForecastList.length === 0) {
     return currentDay.getDate() !== date.getDate();
   }
-  return date.getDate() !== nextDayForecastList[nextDayForecastList.length - 1]?.date.getDate();
+  return (
+    date.getDate() !==
+    nextDayForecastList[nextDayForecastList.length - 1]?.date.getDate()
+  );
 };
 
 const extractInfoFromWeatherObj = (weatherInfoObj) => {
@@ -28,15 +31,24 @@ const extractInfoFromWeatherObj = (weatherInfoObj) => {
 const extractWeatherInfoFromFetch = ({ current, nextDays }) => {
   const currentDay = new Date(current.dt * 1000);
 
-  const nextDayForecastList = nextDays.list.reduce((nextDayForecastList, weatherForecastInDay) => {
-    if (!isNextDay(nextDayForecastList, currentDay, weatherForecastInDay.dt_txt)) {
-      return nextDayForecastList;
-    }
-    const nextDayForecast = extractInfoFromWeatherObj(weatherForecastInDay);
-    return [...nextDayForecastList, nextDayForecast];
-  }, []);
+  const nextDayForecastList = nextDays.list.reduce(
+    (nextDayForecastList, weatherForecastInDay) => {
+      if (
+        !isNextDay(nextDayForecastList, currentDay, weatherForecastInDay.dt_txt)
+      ) {
+        return nextDayForecastList;
+      }
+      const nextDayForecast = extractInfoFromWeatherObj(weatherForecastInDay);
+      return [...nextDayForecastList, nextDayForecast];
+    },
+    [],
+  );
 
-  return { location: current.name, current: extractInfoFromWeatherObj(current), nextDays: nextDayForecastList };
+  return {
+    location: current.name,
+    current: extractInfoFromWeatherObj(current),
+    nextDays: nextDayForecastList,
+  };
 };
 
 const fetchWeather = async (longitude, latitude) => ({
@@ -54,11 +66,16 @@ const initialWeatherInfo = {
 };
 
 export function WeatherInfoProvider({ children }) {
-  const [weather, dispatch] = useReducer(weatherInfoReducer, initialWeatherInfo);
+  const [weather, dispatch] = useReducer(
+    weatherInfoReducer,
+    initialWeatherInfo,
+  );
 
   return (
     <WeatherContext.Provider value={weather}>
-      <WeatherDispatchContext.Provider value={dispatch}>{children}</WeatherDispatchContext.Provider>
+      <WeatherDispatchContext.Provider value={dispatch}>
+        {children}
+      </WeatherDispatchContext.Provider>
     </WeatherContext.Provider>
   );
 }
@@ -76,7 +93,7 @@ export function useUpdateWeather() {
   return (lon, lat) =>
     fetchWeather(lon, lat).then((data) => {
       dispatch({
-        type: 'change',
+        type: "change",
         data: extractWeatherInfoFromFetch(data),
       });
     });
@@ -84,7 +101,7 @@ export function useUpdateWeather() {
 
 function weatherInfoReducer(state, action) {
   switch (action.type) {
-    case 'change': {
+    case "change": {
       return {
         ...state,
         location: action.data.location,
@@ -93,7 +110,7 @@ function weatherInfoReducer(state, action) {
       };
     }
     default: {
-      throw Error('Unknown action: ' + action.type);
+      throw Error("Unknown action: " + action.type);
     }
   }
 }

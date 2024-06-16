@@ -1,17 +1,17 @@
-import React, { useState, useEffect }  from 'react';
-import { BiCurrentLocation } from 'react-icons/bi';
+import React, { useState, useEffect } from "react";
+import { BiCurrentLocation } from "react-icons/bi";
 
-import { useUpdateWeather } from 'WeatherInfoProvider';
+import { useUpdateWeather } from "WeatherInfoProvider";
 
-import styles from './LocateButton.module.css';
+import styles from "./LocateButton.module.css";
 
 function LocateButton(props) {
   const [isLocateAvailable, setIsLocateAvailable] = useState(true);
   const updateWeather = useUpdateWeather();
 
-  const isLocateAvailableClass = isLocateAvailable 
-  ? styles.currentLocationIcon 
-  : styles.disabledLocation;
+  const isLocateAvailableClass = isLocateAvailable
+    ? styles.currentLocationIcon
+    : styles.disabledLocation;
 
   function showPosition(position) {
     updateWeather(position.coords.longitude, position.coords.latitude);
@@ -22,9 +22,9 @@ function LocateButton(props) {
   }
 
   const loadCurrentLocation = function () {
-    navigator.geolocation 
-    ? navigator.geolocation.getCurrentPosition(showPosition, showError) 
-    : setIsLocateAvailable(false);
+    navigator.geolocation
+      ? navigator.geolocation.getCurrentPosition(showPosition, showError)
+      : setIsLocateAvailable(false);
   };
 
   // Get default location information

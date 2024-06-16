@@ -7,6 +7,7 @@
 .closeModal {
   padding: 12px;
   color: var(--main-text-color);
+  cursor: pointer;
 
   display: flex;
   justify-content: flex-end;
@@ -74,6 +75,8 @@
   height: 100%;
   border: 1px solid #616475;
   padding-inline-start: 48px;
+  padding-inline-end: 10px;
+  border-radius: 10px;
 
   color: #616475;
   background: transparent;
@@ -124,7 +127,6 @@
 
 .locationName {
   padding-inline-start: 40px;
-  overflow-x: hidden;
 }
 
 .notFoundNoti {

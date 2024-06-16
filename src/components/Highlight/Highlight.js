@@ -1,46 +1,50 @@
-import React from 'react';
-import { MdAssistantNavigation } from 'react-icons/md';
+import React from 'react'
+import { MdAssistantNavigation } from 'react-icons/md'
 
-import { useWeatherInfo } from 'WeatherInfoProvider';
-import * as utilsFunc from 'utils/convertFunc';
-import HighlightCard from 'components/HighlightCard/HighlightCard';
-import ProgressBar from 'components/ProgressBar/ProgressBar';
-import styles from './Highlight.module.css';
+import { useWeatherInfo } from 'WeatherInfoProvider'
+import * as utilsFunc from 'utils/convertFunc'
+import HighlightCard from 'components/HighlightCard/HighlightCard'
+import ProgressBar from 'components/ProgressBar/ProgressBar'
+import styles from './Highlight.module.css'
+import { Col, Row } from 'antd'
 
 function WindStatus(props) {
-  const { windSpeed, windDirection } = props;
-  return (
-    <HighlightCard title="Wind Status">
-      <span className={styles.valueInfo}>{windSpeed}mps</span>
-      <div className={styles.windDirectionWrapper}>
-        <div className={styles.windDirectionIcon}>
-          <MdAssistantNavigation />
-        </div>
-        <span>{windDirection}</span>
-      </div>
-    </HighlightCard>
-  );
+    const { windSpeed, windDirection } = props
+    return (
+        <HighlightCard title="Wind Status">
+            <span className={styles.valueInfo}>{windSpeed}mps</span>
+            <div className={styles.windDirectionWrapper}>
+                <div className={styles.windDirectionIcon}>
+                    <MdAssistantNavigation />
+                </div>
+                <span>{windDirection}</span>
+            </div>
+        </HighlightCard>
+    )
 }
 
 function HumidityStatus(props) {
-  const { humidity } = props;
-  return (
-    <HighlightCard title="Humidity">
-      <span className={styles.valueInfo}>{humidity}%</span>
-      <div className={styles.humidBarWrapper}>
-        <ProgressBar humidityPercentage={humidity} progressBarClassName={styles.humidBarContainer} />
-      </div>
-    </HighlightCard>
-  );
+    const { humidity } = props
+    return (
+        <HighlightCard title="Humidity">
+            <span className={styles.valueInfo}>{humidity}%</span>
+            <div className={styles.humidBarWrapper}>
+                <ProgressBar
+                    humidityPercentage={humidity}
+                    progressBarClassName={styles.humidBarContainer}
+                />
+            </div>
+        </HighlightCard>
+    )
 }
 
 function SpecifiedHighlightCard(props) {
-  const { title, value } = props;
-  return (
-    <HighlightCard title={title}>
-      <span className={styles.valueInfo}>{value}</span>
-    </HighlightCard>
-  );
+    const { title, value } = props
+    return (
+        <HighlightCard title={title}>
+            <span className={styles.valueInfo}>{value}</span>
+        </HighlightCard>
+    )
 }
 function Highlight(props) {
   const { current } = useWeatherInfo();
@@ -50,7 +54,7 @@ function Highlight(props) {
     <div className={styles.todayHighLightWrapper}>
       <span className={styles.todayHighLightTitle}>Today's Highlights</span>
 
-      <div className={styles.todayHighLightContainer}>
+      <div className='grid grid-cols-2 grid-rows-2 gap-4 flex-1'>
         <WindStatus windSpeed={current.windInfo.speed} windDirection={windDirection} />
         <HumidityStatus humidity={current.humidity} />
         <SpecifiedHighlightCard title="Visibility" value={`${visibilityInKm} km`} />
@@ -60,4 +64,4 @@ function Highlight(props) {
   );
 }
 
-export default Highlight;
+export default Highlight

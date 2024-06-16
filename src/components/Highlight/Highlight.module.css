@@ -1,38 +1,19 @@
 .todayHighLightWrapper {
   flex: 1;
-}
-
-.todayHighLightContainer {
+  width: 100%;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  gap: 30px;
-
-  @media only screen and (min-width: 1024px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-}
-
-.todayHighLightContainer > * {
-  @media only screen and (min-width: 1024px) {
-    flex: 35%;
-    padding: 30px;
-    min-height: 120px;
-  }
 }
 
 .todayHighLightTitle {
   display: block;
-  margin-bottom: 30px;
-  color: var(--main-text-color);
+  margin-bottom: 20px;
+  color: var(--card-background-color);
   font-size: 24px;
   font-weight: 700;
 }
 
 .valueInfo {
-  font-size: 64px;
   color: var(--main-text-color);
 
   @media only screen and (min-width: 1024px) {
@@ -41,7 +22,6 @@
 }
 
 .humidBarWrapper {
-  width: 80%;
   height: 100%;
 
   @media only screen and (min-width: 1024px) {

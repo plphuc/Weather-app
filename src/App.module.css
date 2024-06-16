@@ -1,23 +1,25 @@
 .wrapper {
+  display: flex;
   @media only screen and (min-width: 1024px) {
     height: 100vh;
-    display: flex;
+  }
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
   }
 }
 
 .mainSectionWrapper {
-  height: 100vh;
   background-color: var(--main-color);
   display: flex;
   flex-direction: column;
   position: relative;
-
-  @media only screen and (min-width: 1024px) {
-    flex: 1;
+  
+  @media only screen and (max-width: 1024px) {
+    height: 100vh;
   }
 
   &::before {
-    content: '';
+    content: "";
 
     height: 100%;
     width: 100%;
@@ -27,18 +29,23 @@
     position: absolute;
     z-index: -1;
 
-    background: url('./assets/images/Cloud-background.png') center 40px;
+    background: url("./assets/images/Cloud-background.png") center 40px;
     background-repeat: no-repeat;
   }
 }
 
 .detailsSectionWrapper {
+  overflow: auto;
   @media only screen and (min-width: 1024px) {
-    flex: 2;
+    flex-direction: column;
+    gap: 15px;
     height: inherit;
     padding: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  @media only screen and (max-width: 1024px) {
+    padding: 30px;
   }
 }

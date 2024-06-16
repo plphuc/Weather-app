@@ -3,7 +3,6 @@
   height: 177px;
   padding: 10px;
   color: var(--main-text-color);
-  background-color: var(--card-background-color);
 
   display: flex;
   flex-direction: column;
@@ -21,8 +20,4 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-}
-
-.minTemperature {
-  color: var(--des-text-color);
 }
