@@ -1,7 +1,7 @@
 export const getLocationCoordinates = async (searchText) => {
   try {
     const result = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${searchText}&limit=5&appid=${process.env.REACT_APP_GET_WEATHER_KEY_API}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${searchText}&limit=5&appid=${process.env.REACT_APP_GET_WEATHER_KEY_API}`,
     );
     return result.json();
   } catch (error) {
